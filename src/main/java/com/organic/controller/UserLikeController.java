@@ -1,5 +1,6 @@
 package com.organic.controller;
 
+import com.organic.dto.UserLikeDTO;
 import com.organic.entity.UserLike;
 import com.organic.service.impl.UserLikeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,5 +29,10 @@ public class UserLikeController {
     @DeleteMapping("{id}")
     public void deleteUserLike(@PathVariable int id){
         this.userLikeService.delete(id);
+    }
+
+    @GetMapping("/report-count")
+    public List<UserLikeDTO> getAllTotalCount(){
+        return this.userLikeService.reportUserLike();
     }
 }

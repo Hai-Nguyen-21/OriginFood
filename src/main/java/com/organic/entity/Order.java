@@ -1,5 +1,9 @@
 package com.organic.entity;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.HashMap;
@@ -7,6 +11,9 @@ import java.util.Map;
 
 @Entity
 @Table(name = "`order`")
+@NoArgsConstructor
+@Getter
+@Setter
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +43,9 @@ public class Order {
     // 6 - Fail - Giao thất bại
     @Column(name = "status")
     private String status;
+
+    @Column(name = "money")
+    private Double money;
 
     public String getAddress() {
         return address;

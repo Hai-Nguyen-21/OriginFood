@@ -1,7 +1,9 @@
 package com.organic.service.impl;
 
 import com.organic.entity.Order;
+import com.organic.entity.OrderDetail;
 import com.organic.entity.User;
+import com.organic.repository.OrderDetailRepository;
 import com.organic.repository.OrderRepository;
 import com.organic.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +19,21 @@ public class OrderService implements IOrderService {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired private OrderDetailRepository orderDetailRepository;
+
     //thanh toán
     @Override
     public Order updateOrder(int id) {
+        List<OrderDetail> list = this.orderDetailRepository.findOrderDetailByIdOrder(id);
+        double money = 0;
+        for(OrderDetail o : list){
+            money += o.getTotal();
+        }
+
         Order fromDB = this.orderRepository.findById(id).orElseThrow(null);
         if(fromDB != null){
             fromDB.setStatus("Processing");
+            fromDB.setMoney(money);
             return this.orderRepository.save(fromDB);
         }
         return null;
@@ -40,6 +51,7 @@ public class OrderService implements IOrderService {
         fromDB.setIdUser(u.getId());
         fromDB.setAddress(u.getAddress());
         fromDB.setStatus("Unresolved");
+        fromDB.setMoney(0.0);
         return this.orderRepository.save(fromDB);
     }
 
@@ -62,5 +74,13 @@ public class OrderService implements IOrderService {
 
     public List<Order> getByIdUser(int id){
         return this.orderRepository.findOrderByIdUser(id);
+    }
+
+    public double getMoneyOfOrder(){
+        return this.orderRepository.totalMoneyCompletion();
+    }
+
+    public List<Order> getAllOrder(){
+        return this.orderRepository.findAll();
     }
 }

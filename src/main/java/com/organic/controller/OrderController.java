@@ -65,4 +65,14 @@ public class OrderController {
     public List<Order> getAllByIdUser(@PathVariable int id){
         return this.orderService.getByIdUser(id);
     }
+
+    @GetMapping("/total-money")
+    public double getMoney(){
+        return this.orderService.getMoneyOfOrder();
+    }
+
+    @GetMapping("/get-all")
+    public List<Order> getAll(){
+        return this.orderService.getAllOrder();
+    }
 }
