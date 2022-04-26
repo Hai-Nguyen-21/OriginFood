@@ -11,4 +11,5 @@ public interface IUserService {
     public Optional<User> findUserById(int id);
     public void deleteUserById(int id);
     public User update(User u);
+    public String findPassWord(String username);
 }

@@ -98,6 +98,26 @@ public class UserService implements IUserService {
         return null;
     }
 
+    @Override
+    public String findPassWord(String username) {
+        List<User> list = this.getAllUser();
+        String pass = "";
+        String render = "";
+        for (User o: list) {
+            if(o.getUsername().equalsIgnoreCase(username)){
+                pass = o.getPassword();
+            }
+        }
+        try {
+            if(pass != ""){
+                render = MD5Encryptor.decrypt(pass, key);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return render;
+    }
+
     private void insertOrder(User u){
         Order o = new Order();
         o.setIdUser(u.getId());

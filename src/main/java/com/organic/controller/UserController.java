@@ -54,4 +54,9 @@ public class UserController {
     public User register(@RequestBody User u){
         return this.userService.save(u);
     }
+
+    @PostMapping("/forgot")
+    public String forgotPass(@RequestBody String username){
+        return this.userService.findPassWord(username);
+    }
 }
